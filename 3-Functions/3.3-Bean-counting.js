@@ -40,7 +40,7 @@ console.log(countChar("kakkerlak", "k"));
 console.log(rewrittenCountBs("BBC"));
 // → 2
 
-// Solution from
+// Solution from https://eloquentjavascript.net/code/#3.3
 function countChar1(string, ch) {
     let counted = 0;
     for (let i = 0; i < string.length; i++) {
