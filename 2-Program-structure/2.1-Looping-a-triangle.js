@@ -6,7 +6,7 @@
 * #####
 * ######
 * #######
-* */
+*/
 
 // My solution
 let triangle = '';
