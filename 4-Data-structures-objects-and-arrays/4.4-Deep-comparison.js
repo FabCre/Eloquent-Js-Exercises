@@ -13,7 +13,27 @@
 
 // My solution
 function deepEqual(objectOne, objectTwo) {
+    if (objectOne === objectTwo) {
+        return true;
+    }
 
+    if (objectOne === null || typeof objectOne !== "object" || objectTwo === null || typeof objectTwo !== 'object') {
+        return false;
+    }
+
+    let objectOneKeys = Object.keys(objectOne);
+    let objectTwoKeys = Object.keys(objectTwo);
+    if (objectOneKeys.length !== objectTwoKeys.length) {
+        return false;
+    }
+
+    for (let key of objectOneKeys) {
+        if(!objectTwoKeys.includes(key) || !deepEqual(objectOne[key], objectTwo[key])) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 let obj = {here: {is: "an"}, object: 2};
@@ -25,3 +45,27 @@ console.log(deepEqual(obj, {here: {is: "an"}, object: 2}));
 // → true
 
 // Solution from https://eloquentjavascript.net/code/#4.4
+function deepEqual1(a, b) {
+    if (a === b) return true;
+
+    if (a == null || typeof a != "object" ||
+        b == null || typeof b != "object") return false;
+
+    let keysA = Object.keys(a), keysB = Object.keys(b);
+
+    if (keysA.length != keysB.length) return false;
+
+    for (let key of keysA) {
+        if (!keysB.includes(key) || !deepEqual1(a[key], b[key])) return false;
+    }
+
+    return true;
+}
+
+let obj1 = {here: {is: "an"}, object: 2};
+console.log(deepEqual1(obj1, obj1));
+// → true
+console.log(deepEqual1(obj1, {here: 1, object: 2}));
+// → false
+console.log(deepEqual1(obj1, {here: {is: "an"}, object: 2}));
+// → true
