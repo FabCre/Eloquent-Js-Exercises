@@ -12,7 +12,31 @@
 
 // My solution
 class Group {
-    // Your code here.
+    constructor() {
+        this.members = [];
+    }
+
+    has(value) {
+        return this.members.includes(value);
+    };
+
+    add(value) {
+        if (!this.has(value)) {
+            return this.members.push(value);
+        }
+    };
+
+    delete(value) {
+        this.members = this.members.filter(val => val !== value);
+    }
+
+    static from(collection) {
+        const group = new Group;
+        for (const item of collection) {
+            group.add(item)
+        }
+        return group;
+    }
 }
 
 let group = Group.from([10, 20]);
@@ -27,7 +51,31 @@ console.log(group.has(10));
 
 // Solution from https://eloquentjavascript.net/code/#6.2
 class Group1 {
-    // Your code here.
+    constructor() {
+        this.members = [];
+    }
+
+    add(value) {
+        if (!this.has(value)) {
+            this.members.push(value);
+        }
+    }
+
+    delete(value) {
+        this.members = this.members.filter(v => v !== value);
+    }
+
+    has(value) {
+        return this.members.includes(value);
+    }
+
+    static from(collection) {
+        let group = new Group1;
+        for (let value of collection) {
+            group.add(value);
+        }
+        return group;
+    }
 }
 
 let group1 = Group1.from([10, 20]);
