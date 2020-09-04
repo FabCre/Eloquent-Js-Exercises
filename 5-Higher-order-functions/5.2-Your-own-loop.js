@@ -6,8 +6,12 @@
 */
 
 // My solution
-function loop() {
-
+function loop(value, testFn, updateFn, bodyFn) {
+    if (!testFn(value)) {
+        return false;
+    }
+    bodyFn(value);
+    loop(updateFn(value), testFn, updateFn, bodyFn);
 }
 
 loop(3, n => n > 0, n => n - 1, console.log);
@@ -16,6 +20,11 @@ loop(3, n => n > 0, n => n - 1, console.log);
 // → 1
 
 // Solution from https://eloquentjavascript.net/code/#5.2
+function loop1(start, test, update, body) {
+    for (let value = start; test(value); value = update(value)) {
+        body(value);
+    }
+}
 loop1(3, n => n > 0, n => n - 1, console.log);
 // → 3
 // → 2

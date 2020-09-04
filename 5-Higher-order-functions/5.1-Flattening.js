@@ -4,10 +4,11 @@
 
 // My Solution
 let arrays = [[1, 2, 3], [4, 5], [6]];
-// Your code here.
+const flattenReducer = (acc, curr) => acc.concat(curr);
+console.log(arrays.reduce(flattenReducer, []));
 // → [1, 2, 3, 4, 5, 6]
 
 // Solution from https://eloquentjavascript.net/code/#5.1
 let arrays1 = [[1, 2, 3], [4, 5], [6]];
-
+console.log(arrays1.reduce((flat, current) => flat.concat(current), []));
 // → [1, 2, 3, 4, 5, 6]
