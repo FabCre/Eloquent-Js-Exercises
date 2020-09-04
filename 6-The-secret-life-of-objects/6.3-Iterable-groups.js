@@ -6,6 +6,57 @@
 */
 
 // My Solution
+class Group {
+    constructor() {
+        this.members = [];
+    }
+
+    add(value) {
+        if (!this.has(value)) {
+            this.members.push(value);
+        }
+    }
+
+    has(value) {
+        this.members.includes(value);
+    }
+
+    delete(value) {
+        this.members = this.members.filter(val => val !== value);
+    }
+
+    static from(collection) {
+        const group = new Group;
+        for (const item of collection) {
+            group.add(item);
+        }
+        return group;
+    }
+
+    [Symbol.iterator]() {
+        return new GroupIterator(this);
+    }
+}
+
+class GroupIterator {
+    constructor(group) {
+        this.group = group;
+        this.position = 0;
+    }
+
+    next() {
+        if (this.position >= this.group.members.length) {
+            return {done: true}
+        } else {
+            let result = {
+                value: this.group.members[this.position],
+                done: false
+            }
+            this.position++;
+            return result;
+        }
+    }
+}
 
 for (let value of Group.from(["a", "b", "c"])) {
     console.log(value);
@@ -15,6 +66,57 @@ for (let value of Group.from(["a", "b", "c"])) {
 // → c
 
 // Solution from https://eloquentjavascript.net/code/#6.3
+class Group1 {
+    constructor() {
+        this.members = [];
+    }
+
+    add(value) {
+        if (!this.has(value)) {
+            this.members.push(value);
+        }
+    }
+
+    delete(value) {
+        this.members = this.members.filter(v => v !== value);
+    }
+
+    has(value) {
+        return this.members.includes(value);
+    }
+
+    static from(collection) {
+        let group = new Group;
+        for (let value of collection) {
+            group.add(value);
+        }
+        return group;
+    }
+
+    [Symbol.iterator]() {
+        return new GroupIterator1(this);
+    }
+}
+
+class GroupIterator1 {
+    constructor(group) {
+        this.group = group;
+        this.position = 0;
+    }
+
+    next() {
+        if (this.position >= this.group.members.length) {
+            return {done: true};
+        } else {
+            let result = {
+                value: this.group.members[this.position],
+                done: false
+            };
+            this.position++;
+            return result;
+        }
+    }
+}
 
 for (let value of Group1.from(["a", "b", "c"])) {
     console.log(value);
