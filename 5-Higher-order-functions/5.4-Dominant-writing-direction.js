@@ -4,9 +4,50 @@
 *  The characterScript and countBy functions defined earlier in the chapter are probably useful here.
 */
 
+// Given function
+function characterScriptForExercise(code) {
+    const SCRIPTS = require('./chapter-code/code/scripts');
+    for (let script of SCRIPTS) {
+        if (script.ranges.some(([from, to]) => {
+            return code >= from && code < to;
+        })) {
+            return script;
+        }
+    }
+    return null;
+}
+
+function countByForExercise(items, groupName) {
+    let counts = [];
+    for (let item of items) {
+        let name = groupName(item);
+        let known = counts.findIndex(c => c.name == name);
+        if (known == -1) {
+            counts.push({name, count: 1});
+        } else {
+            counts[known].count++;
+        }
+    }
+    return counts;
+}
+
 // My solution
 function dominantDirection(text) {
-    // Your code here.
+    const scriptDirectionFinder = (char) => {
+        const script = characterScriptForExercise(char.codePointAt(0));
+        return script ? script.direction : "none";
+    }
+    const filterByName = ({name}) => name !== "none";
+
+    let counted = countByForExercise(text, scriptDirectionFinder).filter(filterByName);
+
+    if (counted.length === 0 ) {
+        return 'ltr'
+    }
+
+    const reduceCount = (a, b) => a.count > b.count ? a : b;
+
+    return counted.reduce(reduceCount).name;
 }
 
 console.log(dominantDirection("Hello!"));
@@ -16,7 +57,14 @@ console.log(dominantDirection("Hey, مساء الخير"));
 
 // Solution from https://eloquentjavascript.net/code/#5.4
 function dominantDirection1(text) {
-    // Your code here.
+    let counted = countByForExercise(text, char => {
+        let script = characterScriptForExercise(char.codePointAt(0));
+        return script ? script.direction : "none";
+    }).filter(({name}) => name != "none");
+
+    if (counted.length == 0) return "ltr";
+
+    return counted.reduce((a, b) => a.count > b.count ? a : b).name;
 }
 
 console.log(dominantDirection1("Hello!"));
